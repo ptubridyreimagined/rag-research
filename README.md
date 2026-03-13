@@ -127,6 +127,10 @@ Re-run `python rag-setup.py` to reconfigure without losing the index.
 
 See [`RAG-SYSTEM.md`](RAG-SYSTEM.md) for the full config reference, troubleshooting, and extension guide.
 
+## Do you actually need RAG?
+
+Not always. If your codebase is under 50 files, a well-written `CLAUDE.md` may be all you need. See [`WHEN-TO-USE-RAG.md`](WHEN-TO-USE-RAG.md) for a scoring checklist, a decision flowchart, and a comparison of 5 levels of context management — from "just talk to Claude" through full RAG.
+
 ## Requirements
 
 - **Python 3.10+**
