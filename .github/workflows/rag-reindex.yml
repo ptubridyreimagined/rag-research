@@ -1,0 +1,61 @@
+# rag-managed: true
+# Reindex the RAG store on push to main and cache the result.
+# New sessions start with a fresh index without running it locally.
+name: RAG Reindex
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reindex:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: rag-pip-${{ hashFiles('rag/engine.py') }}
+          restore-keys: rag-pip-
+
+      - name: Cache embedding model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/torch/sentence_transformers
+          key: rag-model-all-MiniLM-L6-v2
+          restore-keys: rag-model-
+
+      - name: Install dependencies
+        run: |
+          pip install --quiet \
+            "sentence-transformers>=2.2.0" \
+            "chromadb>=0.4.0" \
+            "rank-bm25>=0.2.2" \
+            "PyYAML>=6.0"
+
+      - name: Build index
+        run: python rag/engine.py --index
+
+      - name: Show index stats
+        run: python rag/engine.py --status
+
+      - name: Upload index artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rag-index
+          path: .rag/index/
+          retention-days: 7

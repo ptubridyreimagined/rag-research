@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PostSessionStart": [
+      {
+        "command": "bash .claude/hooks/post-session-start.sh",
+        "description": "RAG: Load project context and relevant chunks at session start"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "command": "python3 .claude/hooks/pre-tool-use.py",
+        "description": "RAG: Retrieve context for file operations"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "command": "python3 .claude/hooks/post-tool-use.py",
+        "description": "RAG: Mark edited files as stale"
+      }
+    ],
+    "PostSessionEnd": [
+      {
+        "command": "bash .claude/hooks/post-session-end.sh",
+        "description": "RAG: Summarize session and update session state"
+      }
+    ]
+  }
+}
