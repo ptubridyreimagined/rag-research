@@ -1,0 +1,32 @@
+# --- RAG system generated data ---
+.rag/index/
+.rag/chunks/
+.rag/logs/
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Environment ---
+.env
+.env.local
